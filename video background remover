@@ -1,0 +1,18 @@
+import cv2
+cap = cv2.VideoCapture(0)
+bg_subtractor = cv2.createBackgroundSubtractorMOG2()
+
+while True:
+    ret, frame = cap.read()
+    if not ret:
+        break
+    fg_mask = bg_subtractor.apply(frame)
+    fg = cv2.bitwise_and(frame, frame, mask=fg_mask)
+    cv2.imshow('Original Frame', frame)
+    cv2.imshow('Foreground', fg)
+
+    if cv2.waitKey(1) == 27:
+        break
+
+cap.release()
+cv2.destroyAllWindows()
